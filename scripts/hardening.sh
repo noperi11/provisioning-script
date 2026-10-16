@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Konfigurasi Variabel (Ganti sesuai kebutuhan)
-NEW_USER="admin"
+NEW_USER="user-admin"
 NEW_PASS="admin"
 SSH_PORT=2222
 
