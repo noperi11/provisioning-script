@@ -19,5 +19,9 @@ bash scripts/autoupdate.sh
 
 echo "=========================================="
 echo " PROVISIONING SELESAI!"
-echo " Silakan tes login menggunakan port baru."
-echo "=======================================
+echo "======================================="
+
+echo "======================================="
+echo " MELAKUKAN RESTART"
+echo "======================================="
+needrestart -r a
