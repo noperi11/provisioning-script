@@ -13,18 +13,27 @@ echo "=========================================="
 
 export DEBIAN_FRONTEND=noninteractive
 
-echo "options dpkg --force-confold" > /etc/dpkg/dpkg.cfg.d/ssh
-echo "options dpkg --force-confdef" >> /etc/dpkg/dpkg.cfg.d/ssh
+# Bersihkan dpkg.cfg lama yang salah tulis (penyebab error dpkg "unknown option 'options'")
+rm -f /etc/dpkg/dpkg.cfg.d/ssh
 
+# --force-confold / --force-confdef adalah opsi apt (bukan dpkg.cfg),
+# jadi disimpan di apt.conf.d agar semua pemanggilan apt/dpkg memakainya.
+cat > /etc/apt/apt.conf.d/99force-conf <<'EOF'
+Dpkg::Options {
+    "--force-confold";
+    "--force-confdef";
+};
+EOF
+
+bash scripts/packages.sh
 bash scripts/hardening.sh
 bash scripts/firewall.sh
-bash scripts/packages.sh
 bash scripts/system.sh
 bash scripts/autoupdate.sh
 
 echo "=========================================="
 echo " PROVISIONING SELESAI!"
-echo "======================================="
+echo "=========================================="
 
 echo "======================================="
 echo " MELAKUKAN RESTART"
