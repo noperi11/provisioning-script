@@ -38,4 +38,8 @@ echo "=========================================="
 echo "======================================="
 echo " MELAKUKAN RESTART"
 echo "======================================="
-needrestart -r a
+if command -v needrestart >/dev/null 2>&1; then
+    needrestart -r a
+else
+    echo "[+] needrestart tidak tersedia, melewati restart otomatis."
+fi
