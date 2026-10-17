@@ -119,8 +119,17 @@ fi
 
 rm -f "$CURRENT_CONFIG"
 
-# 9. Restart SSH
+# 9. Izinkan port SSH baru di firewall SEBELUM restart
+#    (menghindari lock-out jika ufw sudah aktif dari run sebelumnya)
+if command -v ufw >/dev/null 2>&1; then
+    echo "[+] Mengizinkan port $SSH_PORT di UFW..."
+    ufw allow "$SSH_PORT"/tcp
+fi
+
+# 10. Restart SSH
 echo "[+] Merestart SSH..."
+
+systemctl enable ssh >/dev/null 2>&1 || systemctl enable sshd >/dev/null 2>&1 || true
 
 if ! systemctl restart ssh.service; then
     systemctl restart sshd.service
