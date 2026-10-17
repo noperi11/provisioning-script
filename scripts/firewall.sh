@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# ============================================================
+# Firewall (UFW)
+# Default deny incoming, izinkan SSH/HTTP/HTTPS saja
+# ============================================================
+
 SSH_PORT=2222
 
-echo "[+] Menginstall dan mengkonfigurasi UFW..."
-apt-get update && apt-get install -y ufw
+echo "[+] Mengkonfigurasi UFW..."
+
+# ufw seharusnya sudah terinstall oleh packages.sh; install hanya jika belum ada
+if ! command -v ufw >/dev/null 2>&1; then
+    apt-get update && apt-get install -y ufw
+fi
 
 # Set default policy
 ufw default deny incoming
