@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# ============================================================
+# Paket Dasar
+# Update sistem, OpenSSH Server, dan paket utilitas standar
+# ============================================================
+
 echo "[+] Mengupdate sistem..."
 apt-get update && apt-get upgrade -y
 
