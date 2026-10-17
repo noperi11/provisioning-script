@@ -1,4 +1,3 @@
-```bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -141,4 +140,3 @@ echo "[!] Pastikan TCP port $SSH_PORT diizinkan oleh firewall."
 echo
 echo "Perintah koneksi dari laptop:"
 echo "ssh -i ~/.ssh/id_ed25519 -p $SSH_PORT $NEW_USER@IP_VM"
-```
