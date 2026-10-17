@@ -11,6 +11,11 @@ echo "=========================================="
 echo " MEMULAI AUTOMATED SERVER PROVISIONING"
 echo "=========================================="
 
+export DEBIAN_FRONTEND=noninteractive
+
+echo "options dpkg --force-confold" > /etc/dpkg/dpkg.cfg.d/ssh
+echo "options dpkg --force-confdef" >> /etc/dpkg/dpkg.cfg.d/ssh
+
 bash scripts/hardening.sh
 bash scripts/firewall.sh
 bash scripts/packages.sh
