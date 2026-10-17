@@ -87,6 +87,13 @@ EOF
 # 8. Validasi sebelum restart
 echo "[+] Memvalidasi konfigurasi SSH..."
 
+# /run/sshd hilang jika belum ada boot layak (atau tmpfs dibersihkan);
+# tanpa direktori ini, sshd -t gagal walau konfigurasinya benar.
+install -d -m 0755 -o root -g root /run/sshd
+
+# Pastikan host key tersedia (aman dijalankan berulang; hanya membuat key yang belum ada)
+ssh-keygen -A >/dev/null
+
 if ! /usr/sbin/sshd -t; then
     echo "[-] Konfigurasi tidak valid. Memulihkan konfigurasi sebelumnya."
     cp -a "$CURRENT_CONFIG" "$SSH_CONFIG"
