@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+# ============================================================
+# Auto Update
+# unattended-upgrades untuk security update otomatis
+# ============================================================
+
 export NEEDRESTART_MODE=l
 
 echo "[+] Menginstall unattended-upgrades..."
