@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #===============================================================================
-# Bootstrap Server Provisioning
+# Bootstrap Server Provisioning (dijalankan oleh install.sh dari repo)
 # Melakukan:
 #   1. Validasi root & konfigurasi
 #   2. Buat user deploy non-root
@@ -14,9 +14,10 @@
 set -euo pipefail
 
 # --- Konfigurasi ---
-DEPLOY_USER="deploy"
-SSH_PUBLIC_KEY="<YOUR_KEY>"
-NEW_HOSTNAME="<NEW_HOSTNAME>"
+# Nilai bisa datang dari environment (diteruskan install.sh) atau default di bawah.
+DEPLOY_USER="${DEPLOY_USER:-deploy}"
+SSH_PUBLIC_KEY="${SSH_PUBLIC_KEY:-<PUBLIC_KEY_KAMU>}"
+NEW_HOSTNAME="${NEW_HOSTNAME:-<NEW_HOSTNAME>}"
 SUDOERS_FILE="/etc/sudoers.d/90-${DEPLOY_USER}-nopasswd"
 SUDOERS_RULE="${DEPLOY_USER} ALL=(ALL) NOPASSWD:ALL"
 
@@ -59,8 +60,8 @@ pkg_install() {
 # --- 1. Validasi awal: root & placeholder ---
 [ "$(id -u)" -eq 0 ] || fail "skrip harus dijalankan sebagai root (sudo $0)"
 
-is_placeholder "$SSH_PUBLIC_KEY" && fail "SSH_PUBLIC_KEY belum diisi di blok Konfigurasi."
-is_placeholder "$NEW_HOSTNAME"  && fail "NEW_HOSTNAME belum diisi di blok Konfigurasi."
+is_placeholder "$SSH_PUBLIC_KEY" && fail "SSH_PUBLIC_KEY belum diisi (set lewat environment atau blok Konfigurasi)."
+is_placeholder "$NEW_HOSTNAME"  && fail "NEW_HOSTNAME belum diisi (set lewat environment atau blok Konfigurasi)."
 
 info "Validasi awal OK (root, konfigurasi lengkap)."
 
@@ -138,4 +139,4 @@ fi
 
 info "==== Bootstrap selesai ===="
 echo "Silahkan SSH ke $(hostname -I | awk '{print $1}')"
-echo "Public IP: $(curl -s ifconfig.me)")"
+echo "Public IP: $(curl -s ifconfig.me)"
