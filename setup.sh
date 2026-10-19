@@ -2,15 +2,7 @@
 set -euo pipefail
 
 # ============================================================
-# Setup Utama Provisioning (lapis 1: bootstrap + access)
-# Alur: packages -> access
-#
-# Batas tegas: repo ini HANYA menyiapkan VM supaya bisa di-SSH
-# oleh orkestrator lapis 2. TIDAK mengubah port SSH, TIDAK
-# menyentuh sshd_config, TIDAK mengaktifkan ufw, TIDAK
-# mengatur timezone/NTP/auto-update. Semua itu milik repo
-# Ansible (infra-ansible) — satu config manager, satu sumber
-# kebenaran. Lihat README.md.
+# Provisioning Script for VPS/VM
 # ============================================================
 
 STAGE=""
