@@ -1,0 +1,7 @@
+#cloud-config
+# !!! Input your Github Personal Access Token and your Repo !!!
+runcmd:
+  - 'curl -H "Authorization: token <Your Github Personal Access Token>" -H "Accept: application/vnd.github.v3.raw" -L -f -o /tmp/bootstrap.sh https://raw.githubusercontent.com/<Your_Username>/<Your_Repo>/main/bootstrap-server.sh'
+  - 'curl -H "Authorization: token <Your Github Personal Access Token>" -H "Accept: application/vnd.github.v3.raw" -L -f -o /tmp/.env https://raw.githubusercontent.com/<Your_Username>/<Your_Repo>/main/.env'
+  - 'chmod +x /tmp/bootstrap.sh'
+  - 'cd /tmp && bash bootstrap.sh'
