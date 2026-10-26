@@ -111,30 +111,6 @@ keep administering as root over the key, or add sudo deliberately:
 usermod -aG sudo <username>
 ```
 
-## Gotchas
-
-- **Do not run this over the SSH session you care about.** Step 7 restarts
-  `sshd` on a new port and drops the connection. Open the new port in your
-  provider firewall first.
-- **Not idempotent.** There is no `set -e`, so the script keeps going past a
-  failing command, and re-running it: errors on `useradd` (user exists),
-  *appends* `pub_key` again to `authorized_keys` (duplicate line), and leaves
-  `PermitRootLogin` alone once it is already uncommented. Treat it as a
-  first-boot script; for changes to an existing server, edit the server.
-- **`PermitRootLogin` is matched only in its commented form**
-  (`s/#PermitRootLogin.*/PermitRootLogin no/`). If you already uncommented that
-  line, the substitution does nothing and root login stays enabled. Check the
-  file after the run.
-- **`ufw --force enable` goes on unconditionally.** On a machine with a
-  different firewall setup, confirm the rules before letting this near it.
-- **The password is exported to every child process.** `set -o allexport` around
-  `source .env` marks all seven variables for export, so `password` sits in the
-  environment of `apt-get`, `sshd`, `systemctl` and the rest â€” readable via
-  `/proc/<pid>/environ` by root, and visible to anything that shells out. It is
-  *not* printed to the log (`chpasswd` takes a pipe, not argv). On the
-  cloud-init path, `.env` also stays behind in `/tmp` with a plaintext password;
-  wipe it once the box is up.
-
 ## Files
 
 | File                  | Role                                                     |
